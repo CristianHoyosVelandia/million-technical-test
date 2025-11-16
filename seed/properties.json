@@ -1,0 +1,252 @@
+[
+  {
+    "name": "Casa Moderna en Chapinero",
+    "address": "Carrera 7 #45-23, Chapinero, Bogotá",
+    "price": 850000000,
+    "idOwner": "owner001",
+    "year": 2020,
+    "codeInternal": "PROP-001",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914"
+  },
+  {
+    "name": "Apartamento de Lujo Rosales",
+    "address": "Calle 67 #8-34, Rosales, Bogotá",
+    "price": 1200000000,
+    "idOwner": "owner002",
+    "year": 2021,
+    "codeInternal": "PROP-002",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00"
+  },
+  {
+    "name": "Penthouse Zona T",
+    "address": "Carrera 13 #82-45, Zona T, Bogotá",
+    "price": 2500000000,
+    "idOwner": "owner003",
+    "year": 2022,
+    "codeInternal": "PROP-003",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
+  },
+  {
+    "name": "Casa Campestre La Calera",
+    "address": "Vereda El Salitre, La Calera, Cundinamarca",
+    "price": 680000000,
+    "idOwner": "owner001",
+    "year": 2018,
+    "codeInternal": "PROP-004",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6"
+  },
+  {
+    "name": "Apartamento Chicó Norte",
+    "address": "Calle 94 #15-20, Chicó Norte, Bogotá",
+    "price": 950000000,
+    "idOwner": "owner004",
+    "year": 2019,
+    "codeInternal": "PROP-005",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688"
+  },
+  {
+    "name": "Casa Colonial Usaquén",
+    "address": "Carrera 6 #119-35, Usaquén, Bogotá",
+    "price": 1100000000,
+    "idOwner": "owner005",
+    "year": 2017,
+    "codeInternal": "PROP-006",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+  },
+  {
+    "name": "Apartamento Santa Bárbara",
+    "address": "Carrera 7 #115-60, Santa Bárbara, Bogotá",
+    "price": 780000000,
+    "idOwner": "owner002",
+    "year": 2020,
+    "codeInternal": "PROP-007",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
+  },
+  {
+    "name": "Casa en Condominio Chia",
+    "address": "Conjunto Bosques de Aposentos, Chía, Cundinamarca",
+    "price": 620000000,
+    "idOwner": "owner006",
+    "year": 2021,
+    "codeInternal": "PROP-008",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1572120360610-d971b9d7767c"
+  },
+  {
+    "name": "Loft Industrial Quinta Camacho",
+    "address": "Calle 67 #15-40, Quinta Camacho, Bogotá",
+    "price": 720000000,
+    "idOwner": "owner003",
+    "year": 2022,
+    "codeInternal": "PROP-009",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+  },
+  {
+    "name": "Apartamento Parque de la 93",
+    "address": "Calle 93A #13-20, Parque 93, Bogotá",
+    "price": 1350000000,
+    "idOwner": "owner007",
+    "year": 2023,
+    "codeInternal": "PROP-010",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1556912173-3bb406ef7e77"
+  },
+  {
+    "name": "Casa Minimalista Cajicá",
+    "address": "Conjunto Hacienda Casablanca, Cajicá, Cundinamarca",
+    "price": 540000000,
+    "idOwner": "owner008",
+    "year": 2020,
+    "codeInternal": "PROP-011",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+  },
+  {
+    "name": "Apartamento El Retiro",
+    "address": "Carrera 19 #85-23, El Retiro, Bogotá",
+    "price": 890000000,
+    "idOwner": "owner004",
+    "year": 2021,
+    "codeInternal": "PROP-012",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+  },
+  {
+    "name": "Casa Vista a la Montaña",
+    "address": "Vereda San José, La Calera, Cundinamarca",
+    "price": 980000000,
+    "idOwner": "owner009",
+    "year": 2019,
+    "codeInternal": "PROP-013",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+  },
+  {
+    "name": "Duplex Moderno Cedritos",
+    "address": "Calle 140 #18-35, Cedritos, Bogotá",
+    "price": 650000000,
+    "idOwner": "owner010",
+    "year": 2022,
+    "codeInternal": "PROP-014",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3"
+  },
+  {
+    "name": "Apartamento Virrey",
+    "address": "Carrera 15 #88-50, Virrey, Bogotá",
+    "price": 1050000000,
+    "idOwner": "owner005",
+    "year": 2021,
+    "codeInternal": "PROP-015",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600573472550-8090b5e0745e"
+  },
+  {
+    "name": "Casa Estilo Francés El Nogal",
+    "address": "Calle 79 #10-15, El Nogal, Bogotá",
+    "price": 1800000000,
+    "idOwner": "owner011",
+    "year": 2018,
+    "codeInternal": "PROP-016",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
+  },
+  {
+    "name": "Apartamento Económico Kennedy",
+    "address": "Carrera 78K #40A-12, Kennedy, Bogotá",
+    "price": 180000000,
+    "idOwner": "owner012",
+    "year": 2015,
+    "codeInternal": "PROP-017",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600566752355-35792bedcfea"
+  },
+  {
+    "name": "Casa en Conjunto Suba",
+    "address": "Conjunto Caminos de Suba, Suba, Bogotá",
+    "price": 420000000,
+    "idOwner": "owner013",
+    "year": 2019,
+    "codeInternal": "PROP-018",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600585154526-990dced4db0d"
+  },
+  {
+    "name": "Penthouse Los Andes",
+    "address": "Carrera 7 #70-30, Los Andes, Bogotá",
+    "price": 1650000000,
+    "idOwner": "owner014",
+    "year": 2023,
+    "codeInternal": "PROP-019",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600607687644-c7171b42498b"
+  },
+  {
+    "name": "Casa Familiar Engativá",
+    "address": "Calle 80 #114-25, Engativá, Bogotá",
+    "price": 320000000,
+    "idOwner": "owner015",
+    "year": 2016,
+    "codeInternal": "PROP-020",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d"
+  },
+  {
+    "name": "Apartamento Amoblado Chapinero Alto",
+    "address": "Carrera 4 #64-15, Chapinero Alto, Bogotá",
+    "price": 480000000,
+    "idOwner": "owner016",
+    "year": 2020,
+    "codeInternal": "PROP-021",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600585152220-90363fe7e115"
+  },
+  {
+    "name": "Casa con Piscina Sopó",
+    "address": "Conjunto La Arboleda, Sopó, Cundinamarca",
+    "price": 750000000,
+    "idOwner": "owner017",
+    "year": 2021,
+    "codeInternal": "PROP-022",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+  },
+  {
+    "name": "Loft Zona Industrial",
+    "address": "Carrera 30 #17-50, Puente Aranda, Bogotá",
+    "price": 390000000,
+    "idOwner": "owner018",
+    "year": 2019,
+    "codeInternal": "PROP-023",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea"
+  },
+  {
+    "name": "Casa de Descanso Melgar",
+    "address": "Vereda Balsillas, Melgar, Tolima",
+    "price": 280000000,
+    "idOwner": "owner019",
+    "year": 2017,
+    "codeInternal": "PROP-024",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+  },
+  {
+    "name": "Apartamento Exclusivo Country Club",
+    "address": "Calle 127 #17A-40, Country Club, Bogotá",
+    "price": 2100000000,
+    "idOwner": "owner020",
+    "year": 2023,
+    "codeInternal": "PROP-025",
+    "enabled": true,
+    "imageUrl": "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4"
+  }
+]

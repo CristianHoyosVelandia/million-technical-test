@@ -74,9 +74,18 @@ El frontend estará disponible en `http://localhost:3000`
 # Iniciar MongoDB
 mongod --dbpath ./data/db
 
-# Importar datos de prueba
+# Importar datos de prueba (25 propiedades de ejemplo)
 mongoimport --db milliondb --collection properties --file seed/properties.json --jsonArray
+
+# Verificar importación
+mongosh milliondb --eval "db.properties.countDocuments()"
 ```
+
+**Datos de prueba incluidos:**
+- 25 propiedades en diferentes ubicaciones de Bogotá y alrededores
+- Precios variados: desde $180.000.000 hasta $2.500.000.000
+- Diferentes tipos: casas, apartamentos, penthouses, lofts
+- Todos los campos requeridos: nombre, dirección, precio, imágenes, año
 
 ## 🧪 Tests
 
