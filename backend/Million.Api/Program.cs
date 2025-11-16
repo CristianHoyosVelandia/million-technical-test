@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Million.Api.Middleware;
 using Million.Core.Interfaces;
 using Million.Infrastructure.Configuration;
 using Million.Infrastructure.Data;
@@ -78,6 +79,9 @@ API RESTful para gestión de propiedades inmobiliarias.
 var app = builder.Build();
 
 // ===== Middleware Pipeline =====
+
+// Error Handler (DEBE ir primero para capturar todas las excepciones)
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 // Swagger (solo en desarrollo)
 if (app.Environment.IsDevelopment())
