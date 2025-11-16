@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Million.Core.Interfaces;
 using Million.Infrastructure.Configuration;
 using Million.Infrastructure.Data;
@@ -35,17 +36,43 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Million Luxury API",
         Version = "v1",
-        Description = "API para gestión de propiedades inmobiliarias",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        Description = @"
+API RESTful para gestión de propiedades inmobiliarias.
+
+**Características:**
+- Listado de propiedades con paginación
+- Filtros por nombre, dirección y rango de precio
+- Búsqueda case-insensitive
+- Arquitectura Hexagonal (Clean Architecture)
+- MongoDB como base de datos
+
+**Desarrollado por:** Cristian Hoyos
+**Año:** 2025
+",
+        Contact = new OpenApiContact
         {
             Name = "Million Luxury",
-            Email = "contact@millionluxury.com"
+            Email = "contact@millionluxury.com",
+            Url = new Uri("https://millionluxury.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT License",
+            Url = new Uri("https://opensource.org/licenses/MIT")
         }
     });
+
+    // Incluir XML comments para documentación enriquecida
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+
+    // Habilitar anotaciones para mejor documentación
+    options.EnableAnnotations();
 });
 
 var app = builder.Build();
