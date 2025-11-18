@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ===== Configuración de MongoDB =====
 builder.Services.Configure<MongoDbSettings>(
-    builder.Configuration.GetSection("MongoDbSettings")
+  builder.Configuration.GetSection("MongoDbSettings")
 );
 
 // ===== Registro de Servicios (Dependency Injection) =====
@@ -22,12 +22,14 @@ builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 // ===== CORS (permitir requests desde frontend) =====
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:5173") // Vite dev server
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
+  options.AddPolicy("AllowFrontend", policy =>
+  {
+    policy.WithOrigins(
+      "http://localhost:3000", 
+      "http://localhost:5173" // Vite dev server
+    ).AllowAnyHeader()
+    .AllowAnyMethod();
+  });
 });
 
 // ===== Controllers =====
@@ -42,24 +44,16 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Million Luxury API",
         Version = "v1",
         Description = @"
-API RESTful para gestión de propiedades inmobiliarias.
+API RESTful para gestión de propiedades inmobiliarias / Arquitectura Hexagonal (Clean Architecture).
 
 **Características:**
 - Listado de propiedades con paginación
 - Filtros por nombre, dirección y rango de precio
 - Búsqueda case-insensitive
-- Arquitectura Hexagonal (Clean Architecture)
-- MongoDB como base de datos
 
 **Desarrollado por:** Cristian Hoyos
 **Año:** 2025
 ",
-        Contact = new OpenApiContact
-        {
-            Name = "Million Luxury",
-            Email = "contact@millionluxury.com",
-            Url = new Uri("https://millionluxury.com")
-        },
         License = new OpenApiLicense
         {
             Name = "MIT License",

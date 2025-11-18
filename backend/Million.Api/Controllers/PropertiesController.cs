@@ -27,7 +27,7 @@ public class PropertiesController : ControllerBase
     /// Obtiene una lista paginada de propiedades con filtros opcionales
     /// </summary>
     /// <remarks>
-    /// Ejemplo de request:
+    /// Ejepmlo:
     ///
     ///     GET /api/properties?name=Casa&amp;address=Bogotá&amp;minPrice=100000&amp;maxPrice=500000&amp;page=1&amp;pageSize=10
     ///
