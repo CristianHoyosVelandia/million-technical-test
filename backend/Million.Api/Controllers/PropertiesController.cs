@@ -58,7 +58,7 @@ public class PropertiesController : ControllerBase
     {
         try
         {
-            // Validación de parámetros
+            // Validaciones básicas
             if (page < 1)
             {
                 return BadRequest(new { message = "Page must be greater than 0" });
@@ -69,10 +69,9 @@ public class PropertiesController : ControllerBase
                 return BadRequest(new { message = "PageSize must be greater than 0" });
             }
 
-            // Limitar pageSize a máximo 50 para evitar queries muy grandes
+            // Limitar a 50 para no matar la BD con queries gigantes
             pageSize = Math.Min(pageSize, 50);
 
-            // Validación de rango de precios
             if (minPrice.HasValue && maxPrice.HasValue && minPrice > maxPrice)
             {
                 return BadRequest(new { message = "MinPrice cannot be greater than MaxPrice" });
@@ -83,12 +82,11 @@ public class PropertiesController : ControllerBase
                 name, address, minPrice, maxPrice, page, pageSize
             );
 
-            // Obtener propiedades desde el repository
             var (properties, totalCount) = await _repository.GetListAsync(
                 name, address, minPrice, maxPrice, page, pageSize
             );
 
-            // Mapear de Property (Domain) → PropertyDto (API Response)
+            // Convertir a DTO para la respuesta
             var propertyDtos = properties.Select(p => new PropertyDto
             {
                 Id = p.Id,
@@ -99,7 +97,6 @@ public class PropertiesController : ControllerBase
                 ImageUrl = p.ImageUrl
             }).ToList();
 
-            // Construir respuesta con metadata de paginación
             var response = new PropertyListResponseDto
             {
                 Data = propertyDtos,

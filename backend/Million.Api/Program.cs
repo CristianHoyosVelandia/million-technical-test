@@ -7,35 +7,31 @@ using Million.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== Configuración de MongoDB =====
+// Configuración de MongoDB desde appsettings.json
 builder.Services.Configure<MongoDbSettings>(
   builder.Configuration.GetSection("MongoDbSettings")
 );
 
-// ===== Registro de Servicios (Dependency Injection) =====
-// MongoDbContext (Singleton - una instancia para toda la aplicación)
-builder.Services.AddSingleton<MongoDbContext>();
+// Inyección de dependencias
+builder.Services.AddSingleton<MongoDbContext>(); // una sola instancia para toda la app
+builder.Services.AddScoped<IPropertyRepository, PropertyRepository>(); // una por request
 
-// Repository (Scoped - una instancia por request HTTP)
-builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
-
-// ===== CORS (permitir requests desde frontend) =====
+// CORS para que el frontend pueda conectarse sin problemas
 builder.Services.AddCors(options =>
 {
   options.AddPolicy("AllowFrontend", policy =>
   {
     policy.WithOrigins(
-      "http://localhost:3000", 
-      "http://localhost:5173" // Vite dev server
+      "http://localhost:3000",
+      "http://localhost:5173" // puerto de Vite
     ).AllowAnyHeader()
     .AllowAnyMethod();
   });
 });
 
-// ===== Controllers =====
 builder.Services.AddControllers();
 
-// ===== Swagger/OpenAPI =====
+// Swagger para documentar la API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -61,43 +57,35 @@ API RESTful para gestión de propiedades inmobiliarias / Arquitectura Hexagonal 
         }
     });
 
-    // Incluir XML comments para documentación enriquecida
+    // Incluir los XML comments en Swagger
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
 
-    // Habilitar anotaciones para mejor documentación
     options.EnableAnnotations();
 });
 
 var app = builder.Build();
 
-// ===== Middleware Pipeline =====
+// Middleware pipeline - el orden importa aquí
 
-// Error Handler (DEBE ir primero para capturar todas las excepciones)
+// Error handler va primero para atrapar todos los errores
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-// Swagger (solo en desarrollo)
+// Swagger solo en desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Million Luxury API v1");
-        options.RoutePrefix = "swagger"; // Accesible en /swagger
+        options.RoutePrefix = "swagger";
     });
 }
 
-// CORS
 app.UseCors("AllowFrontend");
-
-// HTTPS Redirection
 app.UseHttpsRedirection();
-
-// Authorization (para futuras features con autenticación)
-app.UseAuthorization();
-
-// Map Controllers
+app.UseAuthorization(); // para cuando agreguemos autenticación
 app.MapControllers();
 
 app.Run();

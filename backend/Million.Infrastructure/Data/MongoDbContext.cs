@@ -6,24 +6,19 @@ using MongoDB.Driver;
 namespace Million.Infrastructure.Data;
 
 /// <summary>
-/// Contexto de MongoDB (Hexagonal Architecture - Infrastructure Layer)
-/// Proporciona acceso a las colecciones de MongoDB
+/// Contexto de MongoDB - provee acceso a las colecciones
 /// </summary>
 public class MongoDbContext
 {
-    private readonly IMongoDatabase _database;
+  private readonly IMongoDatabase _database;
 
-    public MongoDbContext(IOptions<MongoDbSettings> settings)
-    {
-        var mongoSettings = settings.Value;
-        var client = new MongoClient(mongoSettings.ConnectionString);
-        _database = client.GetDatabase(mongoSettings.DatabaseName);
-    }
+  public MongoDbContext(IOptions<MongoDbSettings> settings) {
+    var mongoSettings = settings.Value;
+    var client = new MongoClient(mongoSettings.ConnectionString);
+    _database = client.GetDatabase(mongoSettings.DatabaseName);
+  }
 
-    /// <summary>
-    /// Colección de propiedades en MongoDB
-    /// Usa PropertyModel (no Property) porque es el modelo de persistencia
-    /// </summary>
-    public IMongoCollection<PropertyModel> Properties =>
-        _database.GetCollection<PropertyModel>("properties");
+  // Colección de propiedades - usa PropertyModel porque es el modelo de BD
+  public IMongoCollection<PropertyModel> Properties =>
+    _database.GetCollection<PropertyModel>("properties");
 }

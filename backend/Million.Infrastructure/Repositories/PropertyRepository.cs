@@ -12,89 +12,73 @@ namespace Million.Infrastructure.Repositories;
 /// ADAPTER (Hexagonal Architecture): Implementa el PORT (IPropertyRepository)
 /// Usa MongoDB como tecnología de persistencia
 /// </summary>
-public class PropertyRepository : IPropertyRepository
-{
-    private readonly IMongoCollection<PropertyModel> _collection;
+public class PropertyRepository : IPropertyRepository {
 
-    public PropertyRepository(MongoDbContext context)
-    {
-        _collection = context.Properties;
-    }
+  private readonly IMongoCollection<PropertyModel> _collection;
 
-    public async Task<(IEnumerable<Property> properties, long totalCount)> GetListAsync(
-        string? name,
-        string? address,
-        decimal? minPrice,
-        decimal? maxPrice,
-        int page,
-        int pageSize)
-    {
-        // 1. Construir filtros dinámicos con FilterBuilder
-        var filterBuilder = Builders<PropertyModel>.Filter;
-        var filters = new List<FilterDefinition<PropertyModel>>
-        {
-            // Siempre filtrar por propiedades habilitadas
-            filterBuilder.Eq(p => p.Enabled, true)
-        };
+  public PropertyRepository(MongoDbContext context) {
+    _collection = context.Properties;
+  }
 
-        // Filtro por nombre (case insensitive, búsqueda parcial)
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-            filters.Add(filterBuilder.Regex(
-                p => p.Name,
-                new BsonRegularExpression(name, "i") // "i" = case insensitive
-            ));
-        }
+  public async Task<(IEnumerable<Property> properties, long totalCount)> GetListAsync(
+    string? name, string? address, decimal? minPrice, decimal? maxPrice, int page, int pageSize 
+  ){
+      // Construir los filtros dinámicamente según lo que venga
+      var filterBuilder = Builders<PropertyModel>.Filter;
+      var filters = new List<FilterDefinition<PropertyModel>> {
+        filterBuilder.Eq(p => p.Enabled, true) // Solo propiedades activas
+      };
 
-        // Filtro por dirección (case insensitive, búsqueda parcial)
-        if (!string.IsNullOrWhiteSpace(address))
-        {
-            filters.Add(filterBuilder.Regex(
-                p => p.Address,
-                new BsonRegularExpression(address, "i")
-            ));
-        }
+      // Búsqueda por nombre - usando regex para que sea flexible
+      if (!string.IsNullOrWhiteSpace(name)) {
+        filters.Add(filterBuilder.Regex(
+          p => p.Name,
+          new BsonRegularExpression(name, "i") // la "i" hace que ignore mayúsculas/minúsculas
+        ));
+      }
 
-        // Filtro por precio mínimo (Greater Than or Equal)
-        if (minPrice.HasValue)
-        {
-            filters.Add(filterBuilder.Gte(p => p.Price, minPrice.Value));
-        }
+      // Mismo concepto para la dirección
+      if (!string.IsNullOrWhiteSpace(address)) {
+        filters.Add(filterBuilder.Regex(
+          p => p.Address,
+          new BsonRegularExpression(address, "i")
+        ));
+      }
 
-        // Filtro por precio máximo (Less Than or Equal)
-        if (maxPrice.HasValue)
-        {
-            filters.Add(filterBuilder.Lte(p => p.Price, maxPrice.Value));
-        }
+      // Rangos de precio - pretty straightforward
+      if (minPrice.HasValue) {
+        filters.Add(filterBuilder.Gte(p => p.Price, minPrice.Value));
+      }
 
-        // Combinar todos los filtros con AND
-        var combinedFilter = filterBuilder.And(filters);
+      if (maxPrice.HasValue) {
+        filters.Add(filterBuilder.Lte(p => p.Price, maxPrice.Value));
+      }
 
-        // 2. Obtener total de registros (para metadata de paginación)
-        var totalCount = await _collection.CountDocumentsAsync(combinedFilter);
+      var combinedFilter = filterBuilder.And(filters);
 
-        // 3. Obtener lista paginada con Skip y Limit
-        var models = await _collection
-            .Find(combinedFilter)
-            .Sort(Builders<PropertyModel>.Sort.Descending(p => p.CreatedAt)) // Ordenar por más recientes
-            .Skip((page - 1) * pageSize)
-            .Limit(pageSize)
-            .ToListAsync();
+      // Necesitamos el total para la paginación
+      var totalCount = await _collection.CountDocumentsAsync(combinedFilter);
 
-        // 4. ✅ HEXAGONAL: Mapear de PropertyModel (Infrastructure) → Property (Domain)
-        var properties = PropertyMapper.ToDomainList(models);
+      // Traer solo la página que se pidió
+      var models = await _collection
+        .Find(combinedFilter)
+        .Sort(Builders<PropertyModel>.Sort.Descending(p => p.CreatedAt)) // más nuevas primero
+        .Skip((page - 1) * pageSize)
+        .Limit(pageSize)
+        .ToListAsync();
 
-        return (properties, totalCount);
-    }
+      // Convertir de modelo de BD a entidad de dominio
+      var properties = PropertyMapper.ToDomainList(models);
 
-    public async Task<Property?> GetByIdAsync(string id)
-    {
-        // Buscar por ID y que esté habilitado
-        var model = await _collection
-            .Find(p => p.Id == id && p.Enabled)
-            .FirstOrDefaultAsync();
+      return (properties, totalCount);
+  }
 
-        // ✅ HEXAGONAL: Mapear de PropertyModel → Property (o null si no existe)
-        return model != null ? PropertyMapper.ToDomain(model) : null;
-    }
+  public async Task<Property?> GetByIdAsync(string id)
+  {
+    var model = await _collection
+    .Find(p => p.Id == id && p.Enabled)
+    .FirstOrDefaultAsync();
+
+    return model != null ? PropertyMapper.ToDomain(model) : null;
+  }
 }

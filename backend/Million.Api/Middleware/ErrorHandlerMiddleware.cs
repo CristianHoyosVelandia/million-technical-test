@@ -4,8 +4,8 @@ using System.Text.Json;
 namespace Million.Api.Middleware;
 
 /// <summary>
-/// Middleware para manejo centralizado de errores en la aplicación
-/// Captura todas las excepciones no manejadas y retorna respuestas JSON consistentes
+/// Middleware para manejar errores de forma centralizada
+/// Atrapa todas las excepciones y retorna respuestas JSON consistentes
 /// </summary>
 public class ErrorHandlerMiddleware
 {
@@ -22,33 +22,30 @@ public class ErrorHandlerMiddleware
     {
         try
         {
-            // Ejecutar el siguiente middleware en la pipeline
             await _next(context);
         }
         catch (Exception ex)
         {
-            // Capturar y manejar cualquier excepción no controlada
+            // Si algo explota, lo manejamos acá
             await HandleExceptionAsync(context, ex);
         }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        // Log del error con detalles completos
+        // Log del error para debugging
         _logger.LogError(exception,
             "Unhandled exception occurred. Path: {Path}, Method: {Method}, TraceId: {TraceId}",
             context.Request.Path,
             context.Request.Method,
             context.TraceIdentifier);
 
-        // Determinar el status code apropiado según el tipo de excepción
+        // Determinar qué status code devolver según el tipo de error
         var (statusCode, message) = GetErrorResponse(exception);
 
-        // Configurar la respuesta HTTP
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)statusCode;
 
-        // Crear objeto de respuesta consistente
         var errorResponse = new ErrorResponse
         {
             StatusCode = (int)statusCode,
@@ -58,7 +55,6 @@ public class ErrorHandlerMiddleware
             Timestamp = DateTime.UtcNow
         };
 
-        // Serializar y enviar la respuesta
         var jsonOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -69,39 +65,31 @@ public class ErrorHandlerMiddleware
         await context.Response.WriteAsync(json);
     }
 
-    /// <summary>
-    /// Determina el status code y mensaje apropiado según el tipo de excepción
-    /// </summary>
+    // Mapea excepciones a códigos HTTP
     private static (HttpStatusCode statusCode, string message) GetErrorResponse(Exception exception)
     {
         return exception switch
         {
-            // Errores de validación (Bad Request)
             ArgumentException or ArgumentNullException or InvalidOperationException
                 => (HttpStatusCode.BadRequest, exception.Message),
 
-            // Not Found
             KeyNotFoundException
                 => (HttpStatusCode.NotFound, exception.Message),
 
-            // Unauthorized
             UnauthorizedAccessException
                 => (HttpStatusCode.Unauthorized, "Unauthorized access"),
 
-            // Timeout
             TimeoutException
                 => (HttpStatusCode.RequestTimeout, "Request timeout"),
 
-            // Default: Internal Server Error
+            // Cualquier otra cosa es un 500
             _ => (HttpStatusCode.InternalServerError,
                   "An unexpected error occurred. Please try again later.")
         };
     }
 }
 
-/// <summary>
-/// Estructura de respuesta de error consistente
-/// </summary>
+// Estructura de la respuesta cuando hay error
 public class ErrorResponse
 {
     public int StatusCode { get; set; }
