@@ -1,0 +1,133 @@
+.container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label i {
+  font-size: 1rem;
+  color: #2c5f2d;
+}
+
+.input {
+  font-family: var(--font-descriptors);
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2c5f2d;
+  box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+}
+
+.input::placeholder {
+  font-family: var(--font-descriptors);
+  color: #999;
+  font-weight: 400;
+}
+
+/* Chrome, Safari, Edge, Opera - quitar flechas de input number */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox - quitar flechas de input number */
+.input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.clearButton {
+  font-family: var(--font-body);
+  background-color: transparent;
+  color: #666;
+  border: 2px solid #e0e0e0;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clearButton:hover {
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+  color: white;
+}
+
+.clearButton i {
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .filtersGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .clearButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .filtersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

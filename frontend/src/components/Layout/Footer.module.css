@@ -1,0 +1,36 @@
+.footer {
+  background-color: var(--white);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+  padding: 2rem 0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.text,
+.author {
+  font-family: var(--font-descriptors);
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.author strong {
+  font-family: var(--font-heading);
+  color: var(--primary-color);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
