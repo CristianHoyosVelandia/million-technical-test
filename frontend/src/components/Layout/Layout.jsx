@@ -8,6 +8,7 @@ const Layout = () => {
     <div className={styles.layout}>
       <Header />
       <main className={styles.main}>
+        {/* Ruta hija */}
         <Outlet />
       </main>
       <Footer />

@@ -7,13 +7,13 @@ const Header = () => {
       <div className="container">
         <div className={styles.content}>
           <Link to="/" className={styles.logo}>
-            <i className="bi bi-house-door"></i>
-            <span>Million Luxury</span>
+            {/* <img src="/favicon.svg" alt="Million Luxury Logo" height={30}/> */}
+            <span> Million</span>
           </Link>
 
           <nav className={styles.nav}>
             <Link to="/" className={styles.navLink}>
-              Propiedades
+              Portal de Propiedades
             </Link>
           </nav>
         </div>

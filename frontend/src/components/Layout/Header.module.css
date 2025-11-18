@@ -42,6 +42,7 @@
 .navLink {
   color: var(--text-primary);
   text-decoration: none;
+  font-family: var(--font-heading);
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 6px;

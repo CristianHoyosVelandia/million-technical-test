@@ -11,7 +11,7 @@ const Footer = () => {
             © {currentYear} Million Luxury. Todos los derechos reservados.
           </p>
           <p className={styles.author}>
-            Desarrollado por <strong>Cristian Hoyos</strong>
+            Desarrollado por <strong><a href="mailto:cristiannhoyoss@gmail.com">Cristian Hoyos</a></strong>
           </p>
         </div>
       </div>
