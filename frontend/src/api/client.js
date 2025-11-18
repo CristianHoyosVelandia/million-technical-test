@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// Crear instancia de Axios con configuración base
+//Axios API Client Configuration
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
-  timeout: 10000, // 10 segundos
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
+  timeout: 10000, // 10 seconds timeout
   headers: {
     'Content-Type': 'application/json',
   },
@@ -13,19 +13,15 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Log del error para debugging
     console.error('API Error:', {
       message: error.message,
       status: error.response?.status,
       data: error.response?.data,
+      url: error.config?.url,
     });
-
-    // Puedes agregar lógica custom aquí, por ejemplo:
-    // - Redirigir a login si es 401
-    // - Mostrar notificación toast
-    // - Retry automático en ciertos casos
-
-    return Promise.reject(error);
+    // Puedes personalizar el manejo de errores aquí según tus necesidades
+    // Por ejemplo, 401 Unathorized de error.response.?status =  401
+     return Promise.reject(error);
   }
 );
 

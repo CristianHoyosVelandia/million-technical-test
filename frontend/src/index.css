@@ -38,6 +38,8 @@ body {
   background-color: var(--background);
   color: var(--text-primary);
   min-height: 100vh;
+  /* Optimización para smooth scroll */
+  scroll-behavior: auto; /* Dejar que JavaScript maneje el scroll */
 }
 
 #root {
@@ -57,4 +59,34 @@ body {
   .container {
     padding: 0 2rem;
   }
+}
+
+/* Property Card Hover Effects - Optimizado con GPU acceleration */
+.property-card-hover {
+  cursor: pointer;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.property-card-hover:hover {
+  transform: translateY(-6px) translateZ(0);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Image hover effect - GPU accelerated */
+.property-card-hover:hover .property-card-img {
+  transform: scale(1.05) translateZ(0);
+}
+
+/* Optimización de imágenes */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Prevent layout shift */
+.property-card-img {
+  content-visibility: auto;
 }
