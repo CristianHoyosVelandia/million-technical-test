@@ -1,12 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchPropertiesThunk, fetchPropertyByIdThunk } from './propertiesThunks';
 
-/**
- * Properties Redux Slice
- * Manages the state for properties list and selected property.
- * Handles loading states, errors, and data from API calls.
- */
-
+// Properties Redux Slice
 const initialState = {
   // Properties List State
   properties: [],
@@ -26,7 +21,7 @@ const initialState = {
     minPrice: '',
     maxPrice: '',
     page: 1,
-    pageSize: 9, // Reducido de 12 a 9 para mejor rendimiento (3x3 grid)
+    pageSize: 9,
   },
 };
 
@@ -34,9 +29,7 @@ const propertiesSlice = createSlice({
   name: 'properties',
   initialState,
   reducers: {
-    /**
-     * Updates filter values, Resets page to 1 when filters change
-     */
+    // Actions
     setFilters: (state, action) => {
       state.filters = {
         ...state.filters,
@@ -45,38 +38,27 @@ const propertiesSlice = createSlice({
       };
     },
 
-    /**
-     * Updates only the page number Used for pagination navigation
-     */
     setPage: (state, action) => {
       state.filters.page = action.payload;
     },
 
-    /**
-     * Clears all filters and resets to initial state
-     */
     clearFilters: (state) => {
       state.filters = initialState.filters;
     },
 
-    /**
-     * Clears selected property Used when navigating away from detail page
-     */
     clearSelectedProperty: (state) => {
       state.selectedProperty = null;
       state.selectedError = null;
     },
 
-    /**
-     * Clears any errors in the state
-     */
     clearErrors: (state) => {
       state.error = null;
       state.selectedError = null;
     },
   },
   extraReducers: (builder) => {
-    // Fetch Properties List
+    // extraReducers sirve para manejar acciones que NO fueron creadas dentro del slice
+    // Son los casos de los thunks donde la peticion puede estar en 3 estados: pending, fulfilled, rejected
     builder
       .addCase(fetchPropertiesThunk.pending, (state) => {
         state.loading = true;
@@ -95,7 +77,6 @@ const propertiesSlice = createSlice({
         state.meta = null;
       });
 
-    // Fetch Property By ID
     builder
       .addCase(fetchPropertyByIdThunk.pending, (state) => {
         state.selectedLoading = true;

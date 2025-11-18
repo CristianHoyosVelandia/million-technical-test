@@ -1,15 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import propertiesReducer from './properties/propertiesSlice';
 
-/**
- * Redux Store Configuration
- *
- * Central Redux store for the Million Luxury application.
- * Uses Redux Toolkit for simplified configuration.
- *
- * Available Slices:
- * - properties: Handles property listings and details
- */
+// Redux Store Configuration
 export const store = configureStore({
   reducer: {
     properties: propertiesReducer,
@@ -17,8 +9,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore these action types
-        ignoredActions: ['properties/fetchProperties/fulfilled'],
+        ignoredActions: ['properties/fetchProperties/fulfilled'], // Ignore these action types
       },
     }),
   devTools: import.meta.env.MODE !== 'production',
