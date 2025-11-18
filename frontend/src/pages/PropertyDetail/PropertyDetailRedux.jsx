@@ -1,15 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPropertyById } from '../../api/propertiesApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPropertyByIdThunk } from '../../store/properties/propertiesThunks';
+import {
+  selectSelectedProperty,
+  selectSelectedLoading,
+  selectSelectedError,
+  clearSelectedProperty,
+} from '../../store/properties/propertiesSlice';
 import { formatCurrency } from '../../utils/formatCurrency';
 import styles from './PropertyDetail.module.css';
 
 /**
- * PropertyDetail Page Component (US-021)
+ * PropertyDetail Page Component with Redux (US-021)
  *
- * Displays complete details of a single property.
+ * Displays complete details of a single property using Redux state.
  *
  * Features:
+ * - Redux state management
+ * - Thunk-based API call
  * - Property ID extracted from URL params
  * - Large hero image
  * - Complete property information (name, address, price, owner)
@@ -26,36 +35,28 @@ import styles from './PropertyDetail.module.css';
  * // Route: /properties/:id
  * // URL: /properties/507f1f77bcf86cd799439011
  */
-const PropertyDetail = () => {
+const PropertyDetailRedux = () => {
   const { id } = useParams(); // Extract property ID from URL
   const navigate = useNavigate(); // React Router navigation
-  const [property, setProperty] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-  // Fetch property when component mounts or ID changes
-  useEffect(() => {
-    fetchProperty();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  // Redux selectors
+  const property = useSelector(selectSelectedProperty);
+  const loading = useSelector(selectSelectedLoading);
+  const error = useSelector(selectSelectedError);
 
   /**
-   * Fetches property details from API by ID
-   * Handles loading and error states
+   * Fetch property when component mounts or ID changes
+   * Clear property when component unmounts
    */
-  const fetchProperty = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await getPropertyById(id);
-      setProperty(data);
-    } catch (err) {
-      setError('Propiedad no encontrada');
-      console.error('Error fetching property:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    dispatch(fetchPropertyByIdThunk(id));
+
+    // Cleanup on unmount
+    return () => {
+      dispatch(clearSelectedProperty());
+    };
+  }, [dispatch, id]);
 
   // Loading State - Show spinner while fetching data
   if (loading) {
@@ -76,7 +77,7 @@ const PropertyDetail = () => {
         <div className={styles.error}>
           <i className="bi bi-exclamation-triangle"></i>
           <h2>Propiedad no encontrada</h2>
-          <p>La propiedad que buscas no existe o fue eliminada.</p>
+          <p>{error || 'La propiedad que buscas no existe o fue eliminada.'}</p>
           <button onClick={() => navigate('/')} className={styles.backButton}>
             <i className="bi bi-arrow-left"></i>
             Volver al listado
@@ -147,4 +148,4 @@ const PropertyDetail = () => {
   );
 };
 
-export default PropertyDetail;
+export default PropertyDetailRedux;

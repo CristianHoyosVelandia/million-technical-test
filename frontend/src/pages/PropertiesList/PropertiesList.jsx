@@ -2,8 +2,28 @@ import { useState, useEffect, useCallback } from 'react';
 import { getProperties } from '../../api/propertiesApi';
 import PropertyCard from '../../components/PropertyCard/PropertyCard';
 import PropertyFilters from './PropertyFilters';
+import Pagination from '../../components/Pagination/Pagination';
 import styles from './PropertiesList.module.css';
 
+/**
+ * PropertiesList Page Component (US-020)
+ *
+ * Main page for displaying paginated property listings with filters.
+ *
+ * Features:
+ * - Property grid with responsive layout
+ * - Filter controls (name, address, price range)
+ * - Pagination navigation (US-019)
+ * - Loading, error, and empty states
+ * - Results counter
+ * - Auto-refresh on filter/page changes
+ *
+ * User Stories:
+ * - US-020: Display property list with filters and pagination
+ * - US-019: Integrate pagination component
+ * - US-018: Integrate filter controls
+ * - US-017: Display property cards
+ */
 const PropertiesList = () => {
   const [properties, setProperties] = useState([]);
   const [meta, setMeta] = useState(null);
@@ -18,12 +38,16 @@ const PropertiesList = () => {
     pageSize: 12,
   });
 
+  /**
+   * Fetches properties from API with current filters and pagination
+   * Uses useCallback to prevent infinite re-renders
+   */
   const fetchProperties = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // Filtrar parámetros vacíos
+      // Build API query params, excluding empty values
       const params = {};
       if (filters.name) params.name = filters.name;
       if (filters.address) params.address = filters.address;
@@ -47,12 +71,29 @@ const PropertiesList = () => {
     fetchProperties();
   }, [fetchProperties]);
 
+  /**
+   * Handles filter changes from PropertyFilters component
+   * Resets to page 1 when filters change
+   */
   const handleFilterChange = useCallback((newFilters) => {
     setFilters(prev => ({
       ...prev,
       ...newFilters,
-      page: 1, // Reset a la primera página cuando cambian filtros
+      page: 1, // Reset to first page when filters change
     }));
+  }, []);
+
+  /**
+   * Handles page navigation from Pagination component (US-019)
+   * Scrolls to top for better UX
+   */
+  const handlePageChange = useCallback((newPage) => {
+    setFilters(prev => ({
+      ...prev,
+      page: newPage,
+    }));
+    // Scroll to top when changing pages
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
@@ -103,7 +144,14 @@ const PropertiesList = () => {
             ))}
           </div>
 
-          {/* TODO: Agregar componente de paginación (US-019) */}
+          {/* Pagination Component (US-019) */}
+          {meta && meta.totalPages > 1 && (
+            <Pagination
+              currentPage={meta.currentPage}
+              totalPages={meta.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </>
       )}
     </div>
