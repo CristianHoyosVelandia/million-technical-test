@@ -477,10 +477,6 @@ git commit -m "feat(frontend): add PropertyFilters component"
 - ✅ Evento `onPageChange` funcional
 - ✅ Diseño accesible (ARIA labels)
 
-**Commits asociados:**
-```bash
-git commit -m "feat(frontend): add Pagination component"
-```
 
 **Archivos modificados:**
 - `frontend/src/components/Pagination/Pagination.jsx`

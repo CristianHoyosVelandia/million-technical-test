@@ -103,6 +103,15 @@ cd frontend
 npm test
 ```
 
+**Tests implementados:**
+- ✅ 16 tests de WebServices (API integration)
+- ✅ Tests de filtros (name, address, price range)
+- ✅ Tests de paginación
+- ✅ Tests de manejo de errores (404, 500, network)
+- ✅ Tests de configuración del cliente API
+
+**Ver documentación completa**: [frontend/TESTING.md](frontend/TESTING.md)
+
 ## 📁 Estructura del Proyecto
 
 ```
