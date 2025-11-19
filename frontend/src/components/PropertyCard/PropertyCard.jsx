@@ -24,7 +24,11 @@ const PropertyCard = ({ property }) => {
       {/* Property Image */}
       <div className={styles.imageContainer}>
         <img
-          src={property.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'}
+          src={property.imageUrl ? property.imageUrl : "https://placehold.co/400x300"}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "https://placehold.co/400x300";
+          }}
           alt={property.name}
           className={styles.image}
           loading="lazy"
@@ -34,7 +38,7 @@ const PropertyCard = ({ property }) => {
       {/* Property Information */}
       <div className={styles.content}>
         {/* Property Name */}
-        <h3 className={styles.name}>{property.name}</h3>
+        <h3 className={styles.name}>{property.name.toUpperCase()}</h3>
         {/* Property Address */}
         <p className={styles.address}>
           <i className="bi bi-geo-alt"></i>

@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Spinner, Alert } from 'reactstrap';
+import { Container, Row, Col, Alert } from 'reactstrap';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 import {
   fetchPropertiesThunk,
@@ -15,6 +15,7 @@ import {
   setPage,
 } from '../../store/properties/propertiesSlice';
 import PropertyCardOptimized from '../../components/PropertyCard/PropertyCardOptimized';
+import PropertyCardSkeleton from '../../components/PropertyCard/PropertyCardSkeleton';
 import PropertyFiltersOptimized from './PropertyFiltersOptimized';
 import PaginationOptimized from '../../components/Pagination/PaginationOptimized';
 
@@ -78,12 +79,17 @@ const PropertiesListRedux = () => {
 
   /**
    * Handles page navigation from Pagination component (US-019)
-   * Scrolls to top for better UX with optimized smooth scroll
+   * Scrolls first, then loads data to avoid double movement
    */
   const handlePageChange = useCallback((newPage) => {
-    dispatch(setPage(newPage));
-    // Optimized smooth scroll to top
-    scrollToTop(250); // 250ms duration for faster response
+    // Primero hacer scroll suave
+    scrollToTop(300);
+
+    // Despachar el cambio DESPUÉS de que el scroll haya comenzado
+    // Delay pequeño para que el scroll inicie primero
+    setTimeout(() => {
+      dispatch(setPage(newPage));
+    }, 100); // 100ms para que el scroll ya esté en progreso
   }, [dispatch, scrollToTop]);
 
   return (
@@ -119,22 +125,15 @@ const PropertiesListRedux = () => {
 
       <PropertyFiltersOptimized onFilterChange={handleFilterChange} />
 
-      {/* Loading State */}
+      {/* Loading State - Skeleton Grid 3x3 */}
       {loading && (
-        <div className="text-center py-5">
-          <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} />
-          <p
-            className="mt-3"
-            style={{
-              fontFamily: 'var(--font-descriptors)',
-              fontSize: '0.9375rem',
-              fontWeight: '400',
-              lineHeight: '2'
-            }}
-          >
-            Cargando propiedades...
-          </p>
-        </div>
+        <Row className="g-4 mb-4">
+          {Array.from({ length: 9 }).map((_, index) => (
+            <Col key={`skeleton-${index}`} xs={12} md={6} lg={4}>
+              <PropertyCardSkeleton />
+            </Col>
+          ))}
+        </Row>
       )}
 
       {/* Error State */}
@@ -176,20 +175,22 @@ const PropertiesListRedux = () => {
       {!loading && !error && properties && properties.length > 0 && (
         <>
           {/* Results Counter */}
-          <div className="mb-3">
-            <p
-              style={{
-                fontFamily: 'var(--font-descriptors)',
-                fontSize: '0.9375rem',
-                fontWeight: '400',
-                lineHeight: '2',
-                color: 'var(--text-secondary)'
-              }}
-            >
-              Mostrando <strong>{properties.length}</strong> de{' '}
-              <strong>{meta?.totalCount}</strong> propiedades
-            </p>
-          </div>
+          {meta && (
+            <div className="mb-3">
+              <p
+                style={{
+                  fontFamily: 'var(--font-descriptors)',
+                  fontSize: '0.9375rem',
+                  fontWeight: '400',
+                  lineHeight: '2',
+                  color: 'var(--text-secondary)'
+                }}
+              >
+                Mostrando <strong>{properties.length}</strong> de{' '}
+                <strong>{meta.totalCount}</strong> propiedades
+              </p>
+            </div>
+          )}
 
           {/* Properties Grid */}
           <Row className="g-4 mb-4">
@@ -203,7 +204,7 @@ const PropertiesListRedux = () => {
           {/* Pagination Component (US-019) */}
           {meta && meta.totalPages > 1 && (
             <PaginationOptimized
-              currentPage={meta.currentPage}
+              currentPage={meta.page}
               totalPages={meta.totalPages}
               onPageChange={handlePageChange}
             />

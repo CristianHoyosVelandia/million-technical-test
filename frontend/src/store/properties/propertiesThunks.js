@@ -28,7 +28,12 @@ export const fetchPropertiesThunk = createAsyncThunk(
   'properties/fetchProperties',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await getProperties(params);
+      // Delay mínimo para asegurar que el skeleton sea visible
+      // Ejecuta la petición y el delay en paralelo, espera a que ambos terminen
+      const [response] = await Promise.all([
+        getProperties(params),
+        new Promise(resolve => setTimeout(resolve, 300)) // 300ms mínimo de loading
+      ]);
       return response;
     } catch (error) {
       return rejectWithValue({

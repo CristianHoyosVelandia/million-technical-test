@@ -13,7 +13,7 @@ const PropertyCardOptimized = memo(({ property }) => {
       <div className="overflow-hidden position-relative" style={{ height: '280px' }}>
         <CardImg
           top
-          src={property.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'}
+          src={property.imageUrl ? property.imageUrl : 'https://placehold.co/400x300'}
           alt={property.name}
           loading="lazy"
           className="w-100 h-100 object-fit-cover property-card-img"
@@ -24,14 +24,9 @@ const PropertyCardOptimized = memo(({ property }) => {
       <CardBody className="d-flex flex-column bg-light">
         <CardTitle
           tag="h3"
-          className="mb-3 text-capitalize fw-normal fs-4 text-dark overflow-hidden"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
-          }}
+          className="mb-3 text-capitalize fw-normal fs-5 text-dark overflow-hidden"
         >
-          {property.name}
+          {property.name.toUpperCase()}
         </CardTitle>
 
         <CardText
